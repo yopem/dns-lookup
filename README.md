@@ -79,10 +79,10 @@ The web interface uses the same pure Python DNS resolution as the CLI.
 
 - `dns_lookup.py` - Main CLI tool with integrated web server
 - `server.py` - Standalone web server
-- `index.html` - Web interface
-- `assets/style.css` - Web interface styles
-- `assets/script.js` - Web interface JavaScript
-- `assets/logo/` - Logo files for web interface
+- `web/index.html` - Web interface
+- `web/assets/style.css` - Web interface styles
+- `web/assets/script.js` - Web interface JavaScript
+- `web/assets/logo/` - Logo files for web interface
 
 ## API Endpoint
 

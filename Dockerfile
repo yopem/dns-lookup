@@ -2,9 +2,8 @@ FROM python:3.11-alpine
 
 WORKDIR /app
 
-COPY server.py dns_lookup.py ./
-COPY index.html ./
-COPY assets/ ./assets/
+COPY *.py ./
+COPY web/ ./web/
 
 EXPOSE 7001
 
