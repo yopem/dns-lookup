@@ -466,10 +466,14 @@ Examples:
 
                         # Format response like Google DNS API
                         answer_records = []
-                        if results and not any(
-                            "No" in result and "found" in result for result in results
-                        ):
-                            for result in results:
+                        if results:
+                            # Filter out "No ... found" messages
+                            valid_results = [
+                                result
+                                for result in results
+                                if not ("No" in result and "found" in result)
+                            ]
+                            for result in valid_results:
                                 answer_records.append({"data": result})
 
                         response_data = {

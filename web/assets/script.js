@@ -1,4 +1,9 @@
-const API_BASE = `${window.location.pathname.replace(/\/$/, "")}/api/dns`
+const API_BASE = (() => {
+  const path = window.location.pathname.replace(/\/$/, "")
+  // If already at /dns-lookup, use the current path + /api/dns
+  // Otherwise use just /api/dns for root access
+  return `${path}/api/dns`
+})()
 
 const recordTypes = {
   A: 1,
