@@ -1,4 +1,4 @@
-# 🔍 DNS Lookup Tool
+# DNS Lookup Tool
 
 A simple DNS lookup tool with both CLI and web interfaces, powered by pure
 Python DNS resolution.
@@ -52,7 +52,7 @@ To use the web interface, you need to run the Python server first:
 
 The web interface uses the same pure Python DNS resolution as the CLI.
 
-## 📋 Record Types Supported
+## Record Types Supported
 
 | Type  | Description        | Example                                                   |
 | ----- | ------------------ | --------------------------------------------------------- |
@@ -65,7 +65,7 @@ The web interface uses the same pure Python DNS resolution as the CLI.
 | SOA   | Start of Authority | `Primary NS: ns1.google.com, Email: dns-admin.google.com` |
 | PTR   | Reverse DNS        | `google-public-dns-a.google.com`                          |
 
-## 🔧 Technical Details
+## Technical Details
 
 - **Pure Python Implementation** - Uses `socket` and `struct` modules for DNS
   packet construction/parsing
@@ -84,7 +84,7 @@ The web interface uses the same pure Python DNS resolution as the CLI.
 - `assets/script.js` - Web interface JavaScript
 - `assets/logo/` - Logo files for web interface
 
-## 🌐 API Endpoint
+## API Endpoint
 
 When running the web server, you can access the API directly:
 
