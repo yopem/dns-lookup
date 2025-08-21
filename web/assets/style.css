@@ -119,10 +119,53 @@ body {
 
 .nav-section {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
   position: relative;
+}
+
+.social-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  gap: 8px;
+  font-size: 1rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+
+.social-links a {
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: all 0.1s ease;
+  padding: 8px 12px;
+  border: 3px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.social-links a svg {
+  width: 24px;
+  height: 24px;
+  transition: all 0.1s ease;
+}
+
+.social-links a:hover {
+  border: 3px solid var(--border-color);
+  background: rgba(0, 0, 0, 0.1);
+  transform: translate(-1px, -1px);
+}
+
+.social-links a:hover svg {
+  transform: scale(1.1);
+}
+
+[data-theme="dark"] .social-links a:hover {
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .logo {
@@ -440,6 +483,38 @@ button:active {
   }
 }
 
+.footer {
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.footer p {
+  margin: 0;
+}
+
+.footer a {
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: 800;
+  transition: all 0.1s ease;
+  padding: 4px 8px;
+  border: 2px solid transparent;
+}
+
+.footer a:hover {
+  border: 2px solid var(--border-color);
+  background: rgba(0, 0, 0, 0.1);
+  transform: translate(-1px, -1px);
+}
+
+[data-theme="dark"] .footer a:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
 @media (max-width: 768px) {
   body {
     padding: 10px;
@@ -469,6 +544,11 @@ button:active {
     gap: 15px;
     margin-bottom: 15px;
     position: static;
+  }
+
+  .social-links {
+    order: 3;
+    font-size: 0.9rem;
   }
 
   .logo-container {
