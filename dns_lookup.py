@@ -5,7 +5,7 @@ import json
 import socket
 import subprocess
 import sys
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 
 class DNSLookup:
@@ -14,6 +14,7 @@ class DNSLookup:
 
     def _run_dig(self, domain: str, record_type: str) -> List[str]:
         try:
+            # Try dig first
             cmd = ["dig", "+short", domain, record_type]
             result = subprocess.run(cmd, capture_output=True, text=True, timeout=10)
             if result.returncode == 0:
@@ -22,10 +23,47 @@ class DNSLookup:
                     for line in result.stdout.strip().split("\n")
                     if line.strip()
                 ]
-            else:
-                return []
-        except (subprocess.TimeoutExpired, FileNotFoundError):
-            return []
+        except FileNotFoundError:
+            # If dig is not available, try adig
+            try:
+                cmd = ["adig", domain, record_type]
+                result = subprocess.run(cmd, capture_output=True, text=True, timeout=10)
+                if result.returncode == 0:
+                    return self._parse_adig_output(result.stdout, record_type)
+            except FileNotFoundError:
+                pass
+        except subprocess.TimeoutExpired:
+            pass
+        return []
+
+    def _parse_adig_output(self, output: str, record_type: str) -> List[str]:
+        """Parse adig output to extract DNS records"""
+        lines = output.split('\n')
+        records = []
+        in_answer_section = False
+        
+        for line in lines:
+            line = line.strip()
+            if line.startswith(';; ANSWER SECTION:'):
+                in_answer_section = True
+                continue
+            elif line.startswith(';;') and in_answer_section:
+                break
+            elif in_answer_section and line and not line.startswith(';'):
+                parts = line.split()
+                if len(parts) >= 5 and parts[3] == record_type:
+                    if record_type == "MX" and len(parts) >= 6:
+                        records.append(f"{parts[4]} {parts[5]}")
+                    elif record_type in ["A", "AAAA", "NS", "CNAME"]:
+                        records.append(parts[4])
+                    elif record_type == "TXT":
+                        # TXT records might have quoted text
+                        txt_data = " ".join(parts[4:])
+                        records.append(txt_data.strip('"'))
+                    elif record_type == "SOA" and len(parts) >= 10:
+                        records.append(f"{parts[4]} {parts[5]} {parts[6]} {parts[7]} {parts[8]} {parts[9]} {parts[10]}")
+        
+        return records
 
     def _run_nslookup(self, domain: str, record_type: str) -> List[str]:
         try:
@@ -138,12 +176,20 @@ class DNSLookup:
         output.append("=" * 60)
 
         for record_type, records in results.items():
-            if records and not any(
-                "No" in record and "found" in record for record in records
-            ):
-                output.append(f"\n📋 {record_type} Records:")
-                for record in records:
-                    output.append(f"   • {record}")
+            if records:
+                # Check if all records are "No ... found" messages
+                all_no_records = all(
+                    "No" in record and "found" in record for record in records
+                )
+                
+                if not all_no_records:
+                    output.append(f"\n📋 {record_type} Records:")
+                    for record in records:
+                        output.append(f"   • {record}")
+                else:
+                    # Show that no records were found for this type
+                    output.append(f"\n📋 {record_type} Records:")
+                    output.append(f"   • No {record_type} records found")
 
         return "\n".join(output)
 
