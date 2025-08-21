@@ -12,7 +12,7 @@ from dns_lookup import DNSLookup
 class DNSWebServer(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         # Set web directory as the document root
-        web_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'web')
+        web_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "web")
         super().__init__(*args, directory=web_dir, **kwargs)
 
     def do_GET(self):
