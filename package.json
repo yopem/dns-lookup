@@ -7,6 +7,12 @@
     "eslint": "^9.33.0",
     "prettier": "^3.6.2"
   },
+  "scripts": {
+    "format:check": "prettier --check .",
+    "format:write": "prettier --write .",
+    "lint": "eslint . --ext .js",
+    "lint:fix": "eslint . --ext .js --fix"
+  },
   "packageManager": "bun@1.2.10",
   "prettier": "@yopem/prettier-config/base"
 }
