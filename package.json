@@ -1,0 +1,12 @@
+{
+  "name": "dns-lookup",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@yopem/prettier-config": "^0.1.9",
+    "eslint": "^9.33.0",
+    "prettier": "^3.6.2"
+  },
+  "packageManager": "bun@1.2.10",
+  "prettier": "@yopem/prettier-config/base"
+}
