@@ -8,8 +8,8 @@
     "prettier": "^3.6.2"
   },
   "scripts": {
-    "format:check": "prettier --check .",
-    "format:write": "prettier --write .",
+    "format:check": "prettier --check ./web",
+    "format:write": "prettier --write ./web",
     "lint": "eslint . --ext .js",
     "lint:fix": "eslint . --ext .js --fix"
   },
