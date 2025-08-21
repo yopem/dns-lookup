@@ -18,28 +18,11 @@ class DNSWebServer(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
         parsed_path = urllib.parse.urlparse(self.path)
 
-        # Handle DNS lookup base path
-        if parsed_path.path.startswith("/dns-lookup"):
-            # Strip /dns-lookup prefix for internal routing
-            internal_path = parsed_path.path[len("/dns-lookup") :]
-            if not internal_path:
-                internal_path = "/"
-
-            # Handle API endpoint
-            if internal_path == "/api/dns":
-                self.handle_dns_api(parsed_path.query)
-            else:
-                # Serve static files with modified path
-                original_path = self.path
-                self.path = internal_path
-                super().do_GET()
-                self.path = original_path
+        # Handle API endpoint
+        if parsed_path.path == "/api/dns":
+            self.handle_dns_api(parsed_path.query)
         else:
-            # For backward compatibility, also serve on root
-            if parsed_path.path == "/api/dns":
-                self.handle_dns_api(parsed_path.query)
-            else:
-                super().do_GET()
+            super().do_GET()
 
     def guess_type(self, path):
         """Override to ensure proper MIME types for CSS and JS files"""
