@@ -1,0 +1,12 @@
+services:
+  dns-lookup:
+    build: .
+    ports:
+      - "7001:7001"
+    container_name: dns-lookup-tool
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dns-lookup.rule=Host(`localhost`)"
+      - "traefik.http.services.dns-lookup.loadbalancer.server.port=7001"
+
