@@ -25,6 +25,29 @@ class DNSWebServer(http.server.SimpleHTTPRequestHandler):
             # Serve static files
             super().do_GET()
 
+    def guess_type(self, path):
+        """Override to ensure proper MIME types for CSS and JS files"""
+        path_str = str(path)
+        if path_str.endswith(".css"):
+            return "text/css"
+        elif path_str.endswith(".js"):
+            return "application/javascript"
+        else:
+            return super().guess_type(path)
+
+    def end_headers(self):
+        """Add security and caching headers"""
+        # Add CORS headers for all requests
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+
+        # Add cache control for static files
+        if self.path.endswith((".css", ".js", ".png", ".jpg", ".ico")):
+            self.send_header("Cache-Control", "public, max-age=3600")
+
+        super().end_headers()
+
     def handle_dns_api(self, query_string):
         try:
             params = urllib.parse.parse_qs(query_string)
