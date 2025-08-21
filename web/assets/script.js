@@ -1,4 +1,4 @@
-const API_BASE = "/api/dns"
+const API_BASE = `${window.location.pathname.replace(/\/$/, "")}/api/dns`
 
 const recordTypes = {
   A: 1,
