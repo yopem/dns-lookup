@@ -121,7 +121,7 @@ function displayResults(results, domain) {
     } else if (data.Status !== 0) {
       const errorDiv = document.createElement("div")
       errorDiv.className = "error"
-      errorDiv.textContent = `${type}: NO RECORDS FOUND OR QUERY FAILED`
+      errorDiv.textContent = `${type}: NO RECORDS FOUND`
       resultsContent.appendChild(errorDiv)
     }
   }
